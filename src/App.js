@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import {useState} from "react";
+import Axios from 'axios'
 
 function App() {
+  const [password, setPassword] = useState("");
+  const [title, setTitle] = useState("");
+
+  const addpassword = () => {
+    Axios.post('http://localhost:3001/addpassword', {password: password, title: title})
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="AddingPassword">
+        <input
+          type="text"
+          placeholder="Ex. password123"
+          onChange={(event) => {
+            setPassword(event.target.value);
+          }}
+        />
+        <input
+          type="text"
+          placeholder="Ex. Facebook"
+          onChange={(event) => {
+            setTitle(event.target.value);
+          }}
+        />
+        <button onClick={addpassword}>Add Password</button>
+      </div>
     </div>
   );
 }
