@@ -1,6 +1,8 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import Axios from "axios";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   const [password, setPassword] = useState("");
@@ -41,44 +43,45 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <div className="AddingPassword">
-        <input
-          type="text"
-          placeholder="Ex. password123"
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
-        />
-        <input
-          type="text"
-          placeholder="Ex. Facebook"
-          onChange={(event) => {
-            setTitle(event.target.value);
-          }}
-        />
-        <button onClick={addpassword}>Add Password</button>
-      </div>
-      <div className="Passwords">
-        {passwordList.map((val, key) => {
-          return (
-            <div
-              key={key}
-              className="password"
-              onClick={() => {
-                decryptPassword({
-                  password: val.password,
-                  iv: val.iv,
-                  id: val.id,
-                });
-              }}
-            >
-              <h3>{val.title}</h3>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    <Register/>
+    // <div className="App">
+    //   <div className="AddingPassword">
+    //     <input
+    //       type="text"
+    //       placeholder="Ex. password123"
+    //       onChange={(event) => {
+    //         setPassword(event.target.value);
+    //       }}
+    //     />
+    //     <input
+    //       type="text"
+    //       placeholder="Ex. Facebook"
+    //       onChange={(event) => {
+    //         setTitle(event.target.value);
+    //       }}
+    //     />
+    //     <button onClick={addpassword}>Add Password</button>
+    //   </div>
+    //   <div className="Passwords">
+    //     {passwordList.map((val, key) => {
+    //       return (
+    //         <div
+    //           key={key}
+    //           className="password"
+    //           onClick={() => {
+    //             decryptPassword({
+    //               password: val.password,
+    //               iv: val.iv,
+    //               id: val.id,
+    //             });
+    //           }}
+    //         >
+    //           <h3>{val.title}</h3>
+    //         </div>
+    //       );
+    //     })}
+    //   </div>
+    // </div>
   );
 }
 
