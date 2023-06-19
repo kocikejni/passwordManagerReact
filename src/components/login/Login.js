@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import "./Login.css";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -20,25 +19,24 @@ const Login = () => {
           const token = response.data.token;
           // Save the token to localStorage
           localStorage.setItem('token', token);
-          navigate("/passwordList");
+          navigate("/");
         }
       })
       .catch((error) => {
-        console.log(error);
+        setErrorMessage(error.response.data);
       });
   };
   
-
   const handleSubmit = (e) => {
     e.preventDefault();
     login();
   };
 
   return (
-    <div class="container">
+    <div className="container">
       <h2>Login</h2>
       <form action="#" method="post">
-        <label for="username">Username:</label>
+        <label htmlFor="username">Username:</label>
         <input
           type="text"
           id="username"
@@ -48,7 +46,7 @@ const Login = () => {
           onChange={(e) => setUserName(e.target.value)}
           required
         />
-        <label for="password">Password:</label>
+        <label htmlFor="password">Password:</label>
         <input
           type="password"
           id="password"
@@ -60,7 +58,7 @@ const Login = () => {
         />
         <input type="submit" value="Login" onClick={handleSubmit} />
       </form>
-      {/* {errorMessage !== "" && <p class="error-message">{errorMessage}</p>} */}
+      {errorMessage !== "" && <p class="error-message">{errorMessage}</p>}
     </div>
   );
 };
