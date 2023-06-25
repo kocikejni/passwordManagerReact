@@ -1,5 +1,6 @@
 import { Grid, IconButton, Typography } from "@mui/material";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
+import DeleteIcon from '@mui/icons-material/Delete';
 import React from "react";
 import colors from "../Colors";
 
@@ -8,6 +9,7 @@ const SinglePassword = ({
   title,
   getPasswordDetails,
   email,
+  deletePassword
 }) => {
   return (
     <Grid
@@ -21,8 +23,8 @@ const SinglePassword = ({
       <Grid
         container
         item
-        md={11}
-        xs={11}
+        md={10}
+        xs={10}
         direction="column"
         justifyContent="space-evenly"
         alignItems="flex-start"
@@ -39,6 +41,15 @@ const SinglePassword = ({
           sx={{ width: 0 }}
         >
           <FullscreenIcon fontSize="medium" sx={{color: colors.white}} />
+        </IconButton>
+      </Grid>
+      <Grid container item md={1} xs={1}>
+        <IconButton
+          disableRipple
+          onClick={deletePassword}
+          sx={{ width: 0 }}
+        >
+          <DeleteIcon fontSize="medium" sx={{color: colors.white}} />
         </IconButton>
       </Grid>
     </Grid>

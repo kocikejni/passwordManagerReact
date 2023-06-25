@@ -14,14 +14,19 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import colors from "../Colors";
 import { useNavigate } from "react-router-dom";
+import PatternIcon from "@mui/icons-material/Pattern";
+import axios from "axios";
 
-
-const pages = [{name:"Home", route:"/"}, {name:"AddPassword", route:"/addPassword"}];
+const pages = [
+  { name: "Home", route: "/" },
+  { name: "AddPassword", route: "/addPassword" },
+];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -37,6 +42,20 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogOut = () => {
+    axios
+      .post("http://localhost:3001/logout", null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(navigate("/login"))
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <AppBar
       position="sticky"
@@ -47,8 +66,8 @@ const ResponsiveAppBar = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Toolbar disableGutters >
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+        <Toolbar disableGutters>
+          <PatternIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -64,7 +83,7 @@ const ResponsiveAppBar = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            PasswordManager
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -96,16 +115,21 @@ const ResponsiveAppBar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={() => {
-                  navigate(page.route);
-                }}  >
-                  <Typography textAlign="center" textTransform={'none'} >{page.name}</Typography>
+              {pages.map((page, index) => (
+                <MenuItem
+                  key={index}
+                  onClick={() => {
+                    navigate(page.route);
+                  }}
+                >
+                  <Typography textAlign="center" textTransform={"none"}>
+                    {page.name}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <PatternIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -122,17 +146,21 @@ const ResponsiveAppBar = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            PasswordManager
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {pages.map((page, index) => (
               <Button
-                key={page}
+                key={index}
                 onClick={() => {
                   navigate(page.route);
-                }} 
-                
-                sx={{ my: 2, color: "white", display: "block" , textTransform:'none'}}
+                }}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  textTransform: "none",
+                }}
               >
                 {page.name}
               </Button>
@@ -162,7 +190,7 @@ const ResponsiveAppBar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={handleLogOut}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

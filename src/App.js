@@ -15,17 +15,15 @@ function App() {
       alignItems="center"
     >
       <Router>
-      <ResponsiveAppBar />
-      <Grid container maxWidth={"1080px"}>
-        
+        <ResponsiveAppBar />
+        <Grid container maxWidth={"1080px"}>
           <Routes>
             <Route exact path="" element={<PasswordList />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/addpassword" element={<AddPassword />} />
           </Routes>
-        
-      </Grid>
+        </Grid>
       </Router>
     </Grid>
   );

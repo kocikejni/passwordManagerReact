@@ -10,6 +10,7 @@ const PasswordList = () => {
   const [passwordList, setPasswordList] = useState([]);
   const [selectedPassword, setSelectedPassword] = useState(null);
   const [open, setOpen] = useState(false);
+  const token = localStorage.getItem("token");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -19,25 +20,51 @@ const PasswordList = () => {
     setOpen(false);
   };
 
-  const token = localStorage.getItem("token");
+  
   useEffect(() => {
     axios
       .get("http://localhost:3001/getpasswords", {
         headers: {
-          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
         setPasswordList(response.data);
       })
       .catch((error) => {
-        // console.log(error);
         if (error.response.data === "Invalid token") {
           navigate("/login");
         }
       });
-  }, [token, navigate]); // Empty dependency array ensures the effect runs only once
+  }, [token, navigate]); 
 
+  const deletePassword = (id, email, userEmail) => {
+    axios
+      .delete("http://localhost:3001/deletepassword", {
+        data: { id, email, userEmail },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.success === true) {
+          console.log("Password deleted successfully");
+          window.location.reload(true);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        if (error.response.data === "Unauthorized") {
+          console.log("Unauthorized");
+        } else if (error.response.data === "Invalid token") {
+          console.log("Invalid token");
+        } else if (error.response.data === "Password not found") {
+          console.log("Password not found");
+        } else {
+          console.log("Server error");
+        }
+      });
+  };
 
   const getPasswordDetails = (id) => {
     axios
@@ -47,7 +74,6 @@ const PasswordList = () => {
         },
       })
       .then((response) => {
-        console.log(response.data);
         setSelectedPassword(response.data);
         setOpen(true);
       })
@@ -75,6 +101,9 @@ const PasswordList = () => {
               <SinglePassword
                 key={key}
                 getPasswordDetails={() => getPasswordDetails(val.id)}
+                deletePassword={() =>
+                  deletePassword(val.id, val.email, val.userEmail)
+                }
                 title={val.title}
                 email={val.email}
               />

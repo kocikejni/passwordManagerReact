@@ -9,11 +9,10 @@ const AddPassword = () => {
   const [title, setTitle] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const addPassword = () => {
-    // Retrieve the token from localStorage
-    const token = localStorage.getItem("token");
-    console.log(token); // Check if the token is retrieved correctly
+    
 
     axios
       .post(
@@ -25,13 +24,13 @@ const AddPassword = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+            Authorization: `Bearer ${token}`,
           },
         }
       )
       .then((response) => {
         if (response.data.success === true) {
-          navigate("/passwordList");
+          navigate("/");
         }
       })
       .catch((error) => {
