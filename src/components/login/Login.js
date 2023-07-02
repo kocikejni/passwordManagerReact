@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Button, Grid, TextField, Typography , Link} from "@mui/material";
+import {
+  Button,
+  Grid,
+  TextField,
+  Typography,
+  Link,
+  Alert,
+  Snackbar,
+} from "@mui/material";
 import colors from "../Colors";
 
 const Login = () => {
@@ -9,6 +17,7 @@ const Login = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [open, setOpen] = useState(false)
 
   const login = () => {
     axios
@@ -25,6 +34,7 @@ const Login = () => {
       })
       .catch((error) => {
         setErrorMessage(error.response.data);
+        setOpen(true)
       });
   };
 
@@ -64,7 +74,7 @@ const Login = () => {
           onChange={(e) => setUserName(e.target.value)}
           required
           color="success"
-          sx={{width:'30%'}}
+          sx={{ width: "30%" }}
         />
         <TextField
           type="password"
@@ -75,18 +85,45 @@ const Login = () => {
           size="small"
           onChange={(e) => setPassword(e.target.value)}
           required
-          sx={{width:'30%'}}
+          sx={{ width: "30%" }}
           color="success"
         />
         <Button
           marginTop={2}
           onClick={handleSubmit}
-          sx={{width:'30%', background: colors.darkGreen, color: colors.white, textTransform: 'none'}}
+          sx={{
+            width: "30%",
+            background: colors.darkGreen,
+            color: colors.white,
+            textTransform: "none",
+          }}
         >
           Login
         </Button>
-        <Link underline='hover' sx={{color:colors.myrtleGreen, textDecorationColor:colors.cambridgeBlue,  ":hover":{textDecorationColor:colors.cambridgeBlue}}} onClick={() => {navigate('/register')}} component='button' variant='body1'>Rregjistrohu</Link>
+        <Link
+          underline="hover"
+          sx={{
+            color: colors.myrtleGreen,
+            textDecorationColor: colors.cambridgeBlue,
+            ":hover": { textDecorationColor: colors.cambridgeBlue },
+          }}
+          onClick={() => {
+            navigate("/register");
+          }}
+          component="button"
+          variant="body1"
+        >
+          Rregjistrohu
+        </Link>
       </Grid>
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+      >
+        <Alert severity={'error'} sx={{ width: "100%" }}>
+          {errorMessage}
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 };
