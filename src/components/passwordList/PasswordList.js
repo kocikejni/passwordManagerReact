@@ -20,7 +20,6 @@ const PasswordList = () => {
     setOpen(false);
   };
 
-  
   useEffect(() => {
     axios
       .get("http://localhost:3001/getpasswords", {
@@ -36,7 +35,7 @@ const PasswordList = () => {
           navigate("/login");
         }
       });
-  }, [token, navigate]); 
+  }, [token, navigate]);
 
   const deletePassword = (id, email, userEmail) => {
     axios

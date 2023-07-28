@@ -12,8 +12,6 @@ const AddPassword = () => {
   const token = localStorage.getItem("token");
 
   const addPassword = () => {
-    
-
     axios
       .post(
         "http://localhost:3001/addpassword",

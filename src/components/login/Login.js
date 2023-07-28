@@ -17,7 +17,7 @@ const Login = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const login = () => {
     axios
@@ -34,7 +34,7 @@ const Login = () => {
       })
       .catch((error) => {
         setErrorMessage(error.response.data);
-        setOpen(true)
+        setOpen(true);
       });
   };
 
@@ -96,6 +96,7 @@ const Login = () => {
             background: colors.darkGreen,
             color: colors.white,
             textTransform: "none",
+             ':hover':{background: colors.myrtleGreen}
           }}
         >
           Login
@@ -116,11 +117,8 @@ const Login = () => {
           Rregjistrohu
         </Link>
       </Grid>
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-      >
-        <Alert severity={'error'} sx={{ width: "100%" }}>
+      <Snackbar open={open} autoHideDuration={3000}>
+        <Alert severity={"error"} sx={{ width: "100%" }}>
           {errorMessage}
         </Alert>
       </Snackbar>
